@@ -51,13 +51,13 @@ public class RabbitSender {
             @Override
             public org.springframework.amqp.core.Message postProcessMessage(org.springframework.amqp.core.Message message) throws AmqpException {
                 System.out.println("post to do: " + message);
-                return null;
+                return message;
             }
 
             @Override
             public org.springframework.amqp.core.Message postProcessMessage(org.springframework.amqp.core.Message message, Correlation correlation) {
                 System.out.println("post to do " + message + " and correlation: " + correlation);
-                return null;
+                return message;
             }
         };
 
