@@ -11,6 +11,7 @@ import com.jsonyao.cs.common.convert.RabbitMessageConverter;
 import com.jsonyao.cs.common.serializer.Serializer;
 import com.jsonyao.cs.common.serializer.SerializerFactory;
 import com.jsonyao.cs.common.serializer.impl.JacksonSerializerFactory;
+import com.jsonyao.cs.producer.service.impl.MessageStoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -40,15 +41,18 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback{
     private Splitter splitter = Splitter.on("#");
 
     /**
+     * SerializerFactory饿汉式单例
+     */
+    private SerializerFactory serializerFactory = JacksonSerializerFactory.INSTANCE;
+
+    /**
      * RabbitTemplate会话连接工厂
      */
     @Autowired
     private ConnectionFactory connectionFactory;
 
-    /**
-     * SerializerFactory饿汉式单例
-     */
-    private SerializerFactory serializerFactory = JacksonSerializerFactory.INSTANCE;
+    @Autowired
+    private MessageStoreService messageStoreService;
 
     /**
      * 获取RabbitTemplate实例
@@ -104,8 +108,9 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback{
         String messageId = strings.get(0);
         long sendTime = Long.parseLong(strings.get(1));
 
-        // TODO 业务处理
+        //	当Broker 返回ACK成功时, 就是更新一下日志表里对应的消息发送状态为 SEND_OK
         if(ack) {
+            messageStoreService.succuess(messageId);
             log.info("send message is OK, confirm messageId: {}, sendTime: {}", messageId, sendTime);
         } else {
             log.error("send message is Fail, confirm messageId: {}, sendTime: {}", messageId, sendTime);
