@@ -20,12 +20,12 @@ public class Message implements Serializable {
     private String messageId;
 
     /**
-     * 消息的主题: 即Exchange的RoutingKey
+     * 消息的主题: 即Exchange
      */
     private String topic;
 
     /**
-     * 消息的路由规则: 即实际上的RoutingKey
+     * 消息的路由规则: 即RoutingKey
      */
     private String routingKey = "";
 
