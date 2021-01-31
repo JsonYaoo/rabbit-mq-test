@@ -1,9 +1,5 @@
 package com.bfxy.esjob.task;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.bfxy.rabbit.task.annotation.ElasticJobConfig;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 
@@ -11,7 +7,6 @@ import com.dangdang.ddframe.job.api.simple.SimpleJob;
 //@Component
 public class MySimpleJob implements SimpleJob {
 
-	
 //	@JobTrace
 	@Override
 	public void execute(ShardingContext shardingContext) {

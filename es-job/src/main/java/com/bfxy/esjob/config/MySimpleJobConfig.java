@@ -16,7 +16,7 @@ import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 
-//@Configuration
+@Configuration
 public class MySimpleJobConfig {
 
 	@Autowired
@@ -33,23 +33,23 @@ public class MySimpleJobConfig {
 	public SimpleJob simpleJob() {
 		return new MySimpleJob();
 	}
-	
+
 	/**
 	 * @param simpleJob
 	 * @return
 	 */
 	@Bean(initMethod = "init")
 	public JobScheduler simpleJobScheduler(final SimpleJob simpleJob,
-			@Value("${simpleJob.cron}") final String cron,
-			@Value("${simpleJob.shardingTotalCount}") final int shardingTotalCount,
-			@Value("${simpleJob.shardingItemParameters}") final String shardingItemParameters,
-			@Value("${simpleJob.jobParameter}") final String jobParameter,
-			@Value("${simpleJob.failover}") final boolean failover,
-			@Value("${simpleJob.monitorExecution}") final boolean monitorExecution,
-			@Value("${simpleJob.monitorPort}") final int monitorPort,
-			@Value("${simpleJob.maxTimeDiffSeconds}") final int maxTimeDiffSeconds,
-			@Value("${simpleJob.jobShardingStrategyClass}") final String jobShardingStrategyClass) {
-		
+										   @Value("${simpleJob.cron}") final String cron,
+										   @Value("${simpleJob.shardingTotalCount}") final int shardingTotalCount,
+										   @Value("${simpleJob.shardingItemParameters}") final String shardingItemParameters,
+										   @Value("${simpleJob.jobParameter}") final String jobParameter,
+										   @Value("${simpleJob.failover}") final boolean failover,
+										   @Value("${simpleJob.monitorExecution}") final boolean monitorExecution,
+										   @Value("${simpleJob.monitorPort}") final int monitorPort,
+										   @Value("${simpleJob.maxTimeDiffSeconds}") final int maxTimeDiffSeconds,
+										   @Value("${simpleJob.jobShardingStrategyClass}") final String jobShardingStrategyClass) {
+
 		return new SpringJobScheduler(simpleJob,
 				registryCenter,
 				getLiteJobConfiguration(simpleJob.getClass(),
@@ -64,10 +64,8 @@ public class MySimpleJobConfig {
 						jobShardingStrategyClass),
 				jobEventConfiguration,
 				new SimpleJobListener());
-		
 	}
-	
-	
+
 	private LiteJobConfiguration getLiteJobConfiguration(Class<? extends SimpleJob> jobClass, String cron,
 			int shardingTotalCount, String shardingItemParameters, String jobParameter, boolean failover,
 			boolean monitorExecution, int monitorPort, int maxTimeDiffSeconds, String jobShardingStrategyClass) {
@@ -92,10 +90,4 @@ public class MySimpleJobConfig {
 		
 		return liteJobConfiguration;
 	}
-	
-	
-	
-	
-	
-	
 }
