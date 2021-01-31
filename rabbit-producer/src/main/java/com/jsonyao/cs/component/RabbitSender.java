@@ -29,7 +29,7 @@ public class RabbitSender {
     final RabbitTemplate.ConfirmCallback confirmCallback = new RabbitTemplate.ConfirmCallback() {
         @Override
         public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-
+            System.out.println("消息ACK结果:" + ack + ", correlationData: " + correlationData.getId());
         }
     };
 
