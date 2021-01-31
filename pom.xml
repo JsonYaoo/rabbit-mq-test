@@ -13,6 +13,7 @@
         <module>rabbit-consumer</module>
         <module>rabbit-test</module>
         <module>rabbit-parent</module>
+        <module>es-job</module>
     </modules>
 
     <parent>
