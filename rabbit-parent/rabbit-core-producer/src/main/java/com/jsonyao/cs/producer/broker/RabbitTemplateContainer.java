@@ -6,6 +6,11 @@ import com.google.common.collect.Maps;
 import com.jsonyao.cs.api.Message;
 import com.jsonyao.cs.api.MessageType;
 import com.jsonyao.cs.api.exception.MessageRunTimeException;
+import com.jsonyao.cs.common.convert.GenericMessageConverter;
+import com.jsonyao.cs.common.convert.RabbitMessageConverter;
+import com.jsonyao.cs.common.serializer.Serializer;
+import com.jsonyao.cs.common.serializer.SerializerFactory;
+import com.jsonyao.cs.common.serializer.impl.JacksonSerializerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -34,9 +39,23 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback{
      */
     private Splitter splitter = Splitter.on("#");
 
+    /**
+     * RabbitTemplate会话连接工厂
+     */
     @Autowired
     private ConnectionFactory connectionFactory;
 
+    /**
+     * SerializerFactory饿汉式单例
+     */
+    private SerializerFactory serializerFactory = JacksonSerializerFactory.INSTANCE;
+
+    /**
+     * 获取RabbitTemplate实例
+     * @param message
+     * @return
+     * @throws MessageRunTimeException
+     */
     public RabbitTemplate getRabbitTemplate(Message message) throws MessageRunTimeException {
         Preconditions.checkNotNull(message);
 
@@ -54,7 +73,11 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback{
         rabbitTemplate.setRoutingKey(message.getRoutingKey());
         rabbitTemplate.setRetryTemplate(new RetryTemplate());
 
-        // TODO 添加序列化反序列化和converter对象
+        // 添加序列化反序列化和converter对象: 自定义序列化和反序列化消息 -> 自定义Message对象
+        Serializer serializer = serializerFactory.create();
+        GenericMessageConverter genericMessageConverter = new GenericMessageConverter(serializer);
+        RabbitMessageConverter rabbitMessageConverter = new RabbitMessageConverter(genericMessageConverter);
+        rabbitTemplate.setMessageConverter(rabbitMessageConverter);
 
         // 为Confirm和RELIANT消息设置消息确认回调方法
         String messageType = message.getMessageType();
