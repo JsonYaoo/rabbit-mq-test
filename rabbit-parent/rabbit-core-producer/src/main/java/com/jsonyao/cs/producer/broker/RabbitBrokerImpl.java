@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class RabbitBrokerImpl implements RabbitBroker{
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private RabbitTemplateContainer rabbitTemplateContainer;
 
     @Override
     public void rapidSend(Message message) {
@@ -48,6 +48,7 @@ public class RabbitBrokerImpl implements RabbitBroker{
             CorrelationData correlationData = new CorrelationData(String.format("%s#%s%#%s", message.getMessageId(), System.currentTimeMillis(), message.getMessageType()));
             String topic = message.getTopic();
             String routingKey = message.getRoutingKey();
+            RabbitTemplate rabbitTemplate = rabbitTemplateContainer.getRabbitTemplate(message);
             rabbitTemplate.convertAndSend(topic, routingKey, message, correlationData);
             log.info("#RabbitBrokerImpl.sendKernel# send to rabbitmq, messageId: {}", message.getMessageId());
         });
