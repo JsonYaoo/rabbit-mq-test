@@ -12,6 +12,7 @@
         <module>rabbit-producer</module>
         <module>rabbit-consumer</module>
         <module>rabbit-test</module>
+        <module>rabbit-parent</module>
     </modules>
 
     <parent>
