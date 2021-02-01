@@ -32,7 +32,10 @@ import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 
-//@Configuration
+/**
+ * 流式任务配置项
+ */
+@Configuration
 public class DataflowJobConfig {
     
 	@Autowired
@@ -63,7 +66,7 @@ public class DataflowJobConfig {
         		.shardingItemParameters(shardingItemParameters).build(), 
         		jobClass.getCanonicalName(),
         		false))	//streamingProcess
-        		.overwrite(false)
+        		.overwrite(false)// false时, 代码配置不会生效, 以Zookeeper为主, 推荐
         		.build();
     }
 }

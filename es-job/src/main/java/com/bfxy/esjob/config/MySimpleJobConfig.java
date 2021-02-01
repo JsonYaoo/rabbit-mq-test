@@ -85,7 +85,7 @@ public class MySimpleJobConfig {
 				.monitorExecution(monitorExecution)
 				.monitorPort(monitorPort)
 				.maxTimeDiffSeconds(maxTimeDiffSeconds)
-				.overwrite(false)
+				.overwrite(false)// false时, 代码配置不会生效, 以Zookeeper为主, 推荐
 				.build();
 		
 		return liteJobConfiguration;

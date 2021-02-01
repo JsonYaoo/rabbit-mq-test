@@ -27,7 +27,9 @@ import com.bfxy.esjob.entity.Foo;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 
-
+/**
+ * 流式任务
+ */
 public class SpringDataflowJob implements DataflowJob<Foo> {
 	
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringDataflowJob.class);
