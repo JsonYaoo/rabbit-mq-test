@@ -45,5 +45,12 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
     </dependencies>
-    
+
+    <distributionManagement>
+        <repository>
+            <id>localRepository</id>
+            <url>file:D:/MyData/yaocs2/tools/apache-maven-3.3.9/repo</url>
+        </repository>
+    </distributionManagement>
+
 </project>

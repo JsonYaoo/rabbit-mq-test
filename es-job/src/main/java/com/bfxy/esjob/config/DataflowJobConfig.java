@@ -35,7 +35,7 @@ import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 /**
  * 流式任务配置项
  */
-@Configuration
+//@Configuration
 public class DataflowJobConfig {
     
 	@Autowired

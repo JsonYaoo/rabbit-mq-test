@@ -2,6 +2,7 @@ package com.jsonyao.cs.task.autoconfigure;
 
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
+import com.jsonyao.cs.task.parser.ElasticJobConfParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,4 +33,8 @@ public class JobParserAutoConfiguration {
         return new ZookeeperRegistryCenter(zkConfig);
     }
 
+    @Bean
+    public ElasticJobConfParser elasticJobConfParser(ZookeeperRegistryCenter zookeeperRegistryCenter, JobZookeeperProperties jobZookeeperProperties){
+        return new ElasticJobConfParser(zookeeperRegistryCenter, jobZookeeperProperties);
+    }
 }
