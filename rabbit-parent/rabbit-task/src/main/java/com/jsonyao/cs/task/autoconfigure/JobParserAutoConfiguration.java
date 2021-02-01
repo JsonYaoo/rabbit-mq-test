@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @Configuration
+// 2. 实现条件装配, 只有配置elastic.job.zk.namespace与elastic.job.zk.serverLists时, 才能启动自定义的@ElasticJobConfig注解
 @ConditionalOnProperty(prefix = "elastic.job.zk", name = {"namespace", "serverLists"}, matchIfMissing = false)
 @EnableConfigurationProperties(JobZookeeperProperties.class)
 public class JobParserAutoConfiguration {
