@@ -95,7 +95,7 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback{
     }
 
     /**
-     * 消息确认
+     * 消息确认: Confirm消息触发确认逻辑(但不落库), Reliant消息(已落库)则用于保证可靠性投递
      * @param correlationData
      * @param ack
      * @param cause
@@ -103,18 +103,21 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback{
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         List<String> strings = splitter.splitToList(correlationData.getId());
-
         // 获取参数
         String messageId = strings.get(0);
         long sendTime = Long.parseLong(strings.get(1));
-
-        //	当Broker 返回ACK成功时, 就是更新一下日志表里对应的消息发送状态为 SEND_OK
+        String messageType = strings.get(2);
         if(ack) {
-            messageStoreService.succuess(messageId);
+            // 当Broker返回ACK成功时, Reliant消息需要更新已落库消息状态为SEND_OK, 否则是通过定时器保证投递的可靠性
+            if(MessageType.RELIANT.equals(messageType)){
+                messageStoreService.succuess(messageId);
+            }
+
+            // 触发ACK Confirm业务
             log.info("send message is OK, confirm messageId: {}, sendTime: {}", messageId, sendTime);
         } else {
+            // 触发NACK Confirm业务
             log.error("send message is Fail, confirm messageId: {}, sendTime: {}", messageId, sendTime);
-
         }
     }
 }

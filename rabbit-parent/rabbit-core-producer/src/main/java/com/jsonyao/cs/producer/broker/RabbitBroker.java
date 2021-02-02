@@ -8,19 +8,19 @@ import com.jsonyao.cs.api.Message;
 public interface RabbitBroker {
 
     /**
-     * 发送迅速消息
+     * 发送迅速消息(不落库)
      * @param message
      */
     void rapidSend(Message message);
 
     /**
-     * 发送确认消息
+     * 发送确认消息(不落库)
      * @param message
      */
     void confirmSend(Message message);
 
     /**
-     * 发送可靠消息
+     * 发送可靠消息(落库)
      * @param message
      */
     void reliantSend(Message message);

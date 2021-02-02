@@ -44,16 +44,20 @@ public class RabbitBrokerImpl implements RabbitBroker{
     public void reliantSend(Message message) {
         message.setMessageType(MessageType.RELIANT);
 
-        // 1. 消息落库, tryCount默认值是0
-        Date now = new Date();
-        BrokerMessage brokerMessage = new BrokerMessage();
-        brokerMessage.setMessageId(message.getMessageId());
-        brokerMessage.setStatus(BrokerMessageStatus.SENDING.getCode());
-        brokerMessage.setNextRetry(DateUtils.addMinutes(now, BrokerMessageConst.TIMEOUT));
-        brokerMessage.setCreateTime(now);
-        brokerMessage.setUpdateTime(now);
-        brokerMessage.setMessage(message);
-        messageStoreService.insert(brokerMessage);
+        // 0. 首先根据ID查询是否已在数据库中存在
+        BrokerMessage brokerMessage = messageStoreService.selectByMessageId(message.getMessageId());
+        if(brokerMessage == null){
+            // 1. 如果不存在, 则消息落库, tryCount默认值是0, 保证可靠性
+            Date now = new Date();
+            brokerMessage = new BrokerMessage();
+            brokerMessage.setMessageId(message.getMessageId());
+            brokerMessage.setStatus(BrokerMessageStatus.SENDING.getCode());
+            brokerMessage.setNextRetry(DateUtils.addMinutes(now, BrokerMessageConst.TIMEOUT));
+            brokerMessage.setCreateTime(now);
+            brokerMessage.setUpdateTime(now);
+            brokerMessage.setMessage(message);
+            messageStoreService.insert(brokerMessage);
+        }
 
         // 2. 发送消息
         sendKernel(message);

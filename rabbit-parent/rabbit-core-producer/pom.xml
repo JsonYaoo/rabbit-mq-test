@@ -17,6 +17,12 @@
             <artifactId>rabbit-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.jsonyao.cs</groupId>
+            <artifactId>rabbit-task</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

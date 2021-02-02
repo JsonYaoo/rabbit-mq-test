@@ -25,13 +25,13 @@ public interface MessageStoreService {
     BrokerMessage selectByMessageId(String messageId);
 
     /**
-     * 消息投递成功
+     * 成功消息投递
      * @param messageId
      */
     void succuess(String messageId);
 
     /**
-     * 消息投递失败
+     * 失败消息投递
      * @param messageId
      */
     void failure(String messageId);

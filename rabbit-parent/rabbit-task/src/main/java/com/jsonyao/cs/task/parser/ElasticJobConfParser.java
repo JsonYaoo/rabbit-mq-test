@@ -164,7 +164,7 @@ public class ElasticJobConfParser  implements ApplicationListener<ApplicationRea
                 /* 9.6 调用SpringJobScheduler初始化方法*/
                 springJobScheduler.init();
 
-                /* 10. @ElasticJobConfig核心配置注入完毕, 打印消息*/
+                // 10. @ElasticJobConfig核心配置注入完毕, 打印消息
                 log.info("启动elastic-job作业: " + jobName);// 作业名称
             }
             log.info("共计启动elastic-job作业数量为: {} 个", beanMap.values().size());
