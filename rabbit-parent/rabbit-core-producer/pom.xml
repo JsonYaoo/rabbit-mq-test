@@ -25,4 +25,23 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <resources>
+            <resource>
+                <!--读取src/main/java目录下的所有xml资源配置文件-->
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <!--继续读取src/main/resources目录下的所有资源配置文件,但有别的格式的配置文件时，不要写成**/*.xml了-->
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
 </project>

@@ -3,6 +3,7 @@ package com.jsonyao.cs.producer.service.impl;
 import com.jsonyao.cs.producer.constant.BrokerMessageStatus;
 import com.jsonyao.cs.producer.entity.BrokerMessage;
 import com.jsonyao.cs.producer.mapper.BrokerMessageMapper;
+import com.jsonyao.cs.producer.service.MessageStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class MessageStoreServiceImpl implements MessageStoreService{
+public class MessageStoreServiceImpl implements MessageStoreService {
 
 	@Autowired
 	private BrokerMessageMapper brokerMessageMapper;

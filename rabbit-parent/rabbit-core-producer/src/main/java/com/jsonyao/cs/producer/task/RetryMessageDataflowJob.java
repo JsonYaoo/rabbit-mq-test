@@ -5,7 +5,7 @@ import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.jsonyao.cs.producer.broker.RabbitBroker;
 import com.jsonyao.cs.producer.constant.BrokerMessageStatus;
 import com.jsonyao.cs.producer.entity.BrokerMessage;
-import com.jsonyao.cs.producer.service.impl.MessageStoreService;
+import com.jsonyao.cs.producer.service.MessageStoreService;
 import com.jsonyao.cs.task.annotation.ElasticJobConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

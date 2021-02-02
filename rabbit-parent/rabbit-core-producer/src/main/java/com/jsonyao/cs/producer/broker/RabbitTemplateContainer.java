@@ -11,7 +11,7 @@ import com.jsonyao.cs.common.convert.RabbitMessageConverter;
 import com.jsonyao.cs.common.serializer.Serializer;
 import com.jsonyao.cs.common.serializer.SerializerFactory;
 import com.jsonyao.cs.common.serializer.impl.JacksonSerializerFactory;
-import com.jsonyao.cs.producer.service.impl.MessageStoreService;
+import com.jsonyao.cs.producer.service.MessageStoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;

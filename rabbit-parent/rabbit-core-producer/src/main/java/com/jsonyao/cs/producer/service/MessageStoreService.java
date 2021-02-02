@@ -1,4 +1,4 @@
-package com.jsonyao.cs.producer.service.impl;
+package com.jsonyao.cs.producer.service;
 
 import com.jsonyao.cs.producer.constant.BrokerMessageStatus;
 import com.jsonyao.cs.producer.entity.BrokerMessage;

@@ -12,4 +12,5 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan({"com.jsonyao.cs.producer.*"})
 public class RabbitProducerAutoConfiguration {
 
+    // TODO 写框架的话, 建议使用@Bean方式注入, 而不是去扫描
 }

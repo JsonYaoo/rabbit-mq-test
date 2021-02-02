@@ -5,7 +5,7 @@ import com.jsonyao.cs.api.MessageType;
 import com.jsonyao.cs.producer.constant.BrokerMessageConst;
 import com.jsonyao.cs.producer.constant.BrokerMessageStatus;
 import com.jsonyao.cs.producer.entity.BrokerMessage;
-import com.jsonyao.cs.producer.service.impl.MessageStoreService;
+import com.jsonyao.cs.producer.service.MessageStoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -74,7 +74,7 @@ public class RabbitBrokerImpl implements RabbitBroker{
      */
     private void sendKernel(Message message){
         AsyncBaseQueue.submit((Runnable) ()-> {
-            CorrelationData correlationData = new CorrelationData(String.format("%s#%s%#%s", message.getMessageId(), System.currentTimeMillis(), message.getMessageType()));
+            CorrelationData correlationData = new CorrelationData(String.format("%s#%s#%s", message.getMessageId(), System.currentTimeMillis(), message.getMessageType()));
             String topic = message.getTopic();
             String routingKey = message.getRoutingKey();
             RabbitTemplate rabbitTemplate = rabbitTemplateContainer.getRabbitTemplate(message);
