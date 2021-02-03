@@ -49,6 +49,16 @@ public class ProducerClient implements MessageProducer {
 
     @Override
     public void send(List<Message> messages) throws MessageRunTimeException {
+        // 缓存批量消息
+        messages.forEach(message -> {
+            // 批量发送消息默认指的是迅速消息
+            message.setMessageType(MessageType.RAPID);
 
+            // 缓存到ThreadLocal中, 当前线程中有个ThreadLocals缓存
+            MessageHolder.add(message);
+        });
+
+        // 发送消息
+        rabbitBroker.sendMessages();
     }
 }

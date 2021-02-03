@@ -26,7 +26,7 @@ public interface RabbitBroker {
     void reliantSend(Message message);
 
     /**
-     * 批量发送消息
+     * 批量发送消息: 使用ThreadLocal缓存发送, 减少参数传递, 提高性能
      */
     void sendMessages();
 }

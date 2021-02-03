@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * RabbitMq消息发送实现类
@@ -65,7 +66,20 @@ public class RabbitBrokerImpl implements RabbitBroker{
 
     @Override
     public void sendMessages() {
+        // 从ThreadLocal中获取缓存
+        List<Message> messages = MessageHolder.clear();
 
+        // 遍历异步发送
+        messages.forEach(message -> {
+            MessageHolderAsyncBaseQueue.submit((Runnable) ()-> {
+                CorrelationData correlationData = new CorrelationData(String.format("%s#%s#%s", message.getMessageId(), System.currentTimeMillis(), message.getMessageType()));
+                String topic = message.getTopic();
+                String routingKey = message.getRoutingKey();
+                RabbitTemplate rabbitTemplate = rabbitTemplateContainer.getRabbitTemplate(message);
+                rabbitTemplate.convertAndSend(topic, routingKey, message, correlationData);
+                log.info("#RabbitBrokerImpl.sendMessages# send to rabbitmq, messageId: {}", message.getMessageId());
+            });
+        });
     }
 
     /**

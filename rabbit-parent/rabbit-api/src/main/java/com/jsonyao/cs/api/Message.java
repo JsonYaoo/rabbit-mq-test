@@ -73,4 +73,9 @@ public class Message implements Serializable {
         this.delayMills = delayMills;
         this.messageType = messageType;
     }
+
+    public static void main(String[] args) {
+        Message message = new Message("1", "2", "3", null, 4, "5");
+        System.out.println(message);
+    }
 }
