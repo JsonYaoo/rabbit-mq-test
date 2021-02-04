@@ -58,4 +58,20 @@ public class ApplicationTests {
         producerClient.send(messages);
         Thread.sleep(Long.valueOf(Integer.MAX_VALUE));
     }
+
+    @Test
+    public void testProducerClient3() throws InterruptedException {
+        for(int i = 0; i < 1; i++){
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("name", "张三");
+            attributes.put("age", "18");
+
+            // 构造自定义Message
+            Message message = new Message(UUID.randomUUID().toString(), "delay-exchange", "delay.abc", attributes, 15000);
+            message.setMessageType(MessageType.RELIANT);
+            producerClient.send(message);
+        }
+
+        Thread.sleep(Long.valueOf(Integer.MAX_VALUE));
+    }
 }

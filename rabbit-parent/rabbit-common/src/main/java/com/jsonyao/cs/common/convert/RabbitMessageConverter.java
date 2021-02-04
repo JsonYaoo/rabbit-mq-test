@@ -12,7 +12,7 @@ import org.springframework.amqp.support.converter.MessageConverter;
 public class RabbitMessageConverter implements MessageConverter {
 
     /**
-     * 过期时间
+     * 过期时间: 可以用来实现延迟队列, 思路: 生产者设置消息过期时间TTL, 过期后消息投递到死信队列中, 然后消费者消费死信队列相当于消费延迟队列
      */
     public static final String DEFAULT_EXPIRE = String.valueOf(24 * 60 * 60 * 1000);
 
@@ -32,7 +32,11 @@ public class RabbitMessageConverter implements MessageConverter {
      */
     @Override
     public Message toMessage(Object object, MessageProperties messageProperties) throws MessageConversionException {
-        messageProperties.setExpiration(DEFAULT_EXPIRE);
+//        messageProperties.setExpiration(DEFAULT_EXPIRE);
+
+        // 使用延迟插件实现延迟队列
+        com.jsonyao.cs.api.Message message = (com.jsonyao.cs.api.Message) object;
+        messageProperties.setDelay(message.getDelayMills());
         return delegate.toMessage(object, messageProperties);
     }
 
